@@ -1,8 +1,19 @@
 // Listen for submit
-document.getElementById('loan-form').addEventListener('submit', calculateResults)
+document.getElementById('loan-form').addEventListener('submit', function(e) {
+    // hide results
+    document.getElementById('results').style.display = 'none'
+
+    // show loader
+    document.getElementById('loading').style.display = 'block'
+
+    // load the spinner for 2 seconds then display results
+    setTimeout(calculateResults, 2000)
+
+    e.preventDefault()
+})
 
 // calculate results
-function calculateResults(e) {
+function calculateResults() {
 
     // UI variables
     const amount = document.getElementById('amount')
@@ -26,14 +37,27 @@ function calculateResults(e) {
         monthlyPayment.value = monthly.toFixed(2)
         totalPayment.value = (monthly * calculatedPayments).toFixed(2)
         totalInterest.value = ((monthly * calculatedPayments) - principal).toFixed(2)
+
+        // show results after calculation
+        document.getElementById('results').style.display = 'block'
+            //hide loader
+        document.getElementById('loading').style.display = 'none'
+
+
+
     } else {
         showError('Please check your values.')
     }
-    e.preventDefault()
 }
 
 // show error
 function showError(error) {
+    // hide results if there's an error
+    document.getElementById('results').style.display = 'none'
+
+    //hide loader if there's an error
+    document.getElementById('loading').style.display = 'none'
+
     // create a div
     const errorDiv = document.createElement('div')
 
